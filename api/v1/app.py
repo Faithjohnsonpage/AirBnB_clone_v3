@@ -10,6 +10,9 @@ from os import getenv
 
 app = Flask(__name__)
 
+# Ensure JSON responses are always pretty-printed
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
 # Register blueprint
 app.register_blueprint(app_views)
 
