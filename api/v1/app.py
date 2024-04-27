@@ -24,10 +24,8 @@ def close_storage(self):
 
 if __name__ == "__main__":
     # Get API host and port from environment variables
-    api_host = getenv("HBNB_API_HOST")
-    api_port = getenv("HBNB_API_PORT")
+    host = getenv('HBNB_API_HOST', default='0.0.0.0')
+    port = getenv('HBNB_API_PORT', default=5000)
 
     # Run the Flask app
-    app.run(host=api_host if api_host else '0.0.0.0',
-            port=int(api_port) if api_port else 5000, threaded=True)
-
+    app.run(host=host, port=int(port), threaded=True)
