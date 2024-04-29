@@ -51,17 +51,6 @@ class DBStorage:
                     new_dict[key] = obj
         return (new_dict)
 
-    def get(self, cls, id):
-        """Retrieves one object"""
-        for clss in classes:
-            if clss == cls.__name__:
-                cls_objects = self.all(clss)
-                break
-        for key, value in cls_objects.items():
-            if key.endswith(id):
-                return value
-        return None
-
     def count(self, cls=None):
         """Counts the number of objects in storage"""
         count = 0
