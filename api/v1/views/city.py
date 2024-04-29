@@ -9,7 +9,8 @@ from models.city import City
 from models.base_model import BaseModel
 
 
-@app_views.route('/states/<string:state_id>/cities', methods=['GET', 'POST'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>/cities', methods=['GET', 'POST'],
+                 strict_slashes=False)
 def view_create_cities(state_id):
     """
     GET: Returns all cities for a given state.
@@ -17,7 +18,8 @@ def view_create_cities(state_id):
 
     Raises:
         404: If no state with the given ID exists or no cities found.
-        400: If the request body is not valid JSON or the 'name' key is missing.
+        400: If the request body is not valid JSON or the 'name' key
+        is missing.
     """
     if request.method == 'GET':
         cities = []
@@ -55,7 +57,8 @@ def view_update_delete_city(city_id):
 
     Raises:
         404: If no City with the given ID exists.
-        400: If the request body is not valid JSON or improper fields attempted to be updated.
+        400: If the request body is not valid JSON or improper fields
+        attempted to be updated.
     """
     if request.method == 'GET':
         city_objs = storage.all(City)

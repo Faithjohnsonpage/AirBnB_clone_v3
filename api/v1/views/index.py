@@ -11,11 +11,11 @@ from models.user import User
 
 
 stats = {
-  "amenities": 0, 
-  "cities": 0, 
-  "places": 0, 
-  "reviews": 0, 
-  "states": 0, 
+  "amenities": 0,
+  "cities": 0,
+  "places": 0,
+  "reviews": 0,
+  "states": 0,
   "users": 0
 }
 
@@ -29,10 +29,12 @@ class_mapping = {
     "users": User
 }
 
+
 @app_views.route('/status', methods=["GET"])
 def view_status():
     """Returns a JSON response with status OK."""
     return jsonify({"status": "OK"})
+
 
 @app_views.route('/stats', methods=["GET"])
 def get_stats():
