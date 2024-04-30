@@ -86,3 +86,46 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+
+class TestDBStorageAdditional(unittest.TestCase):
+    """Additional tests for the DBStorage class"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_existing_object(self):
+        """Test get() method with an existing object"""
+        storage = DBStorage()
+        # Assuming there's at least one object of each class in storage
+        for cls_name, cls in classes.items():
+            instance = cls()
+            storage.new(instance)
+            result = storage.get(cls, instance.id)
+            self.assertEqual(result, instance)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get_non_existing_object(self):
+        """Test get() method with a non-existing object"""
+        storage = DBStorage()
+        # Assuming there's at least one object of each class in storage
+        for cls in classes.values():
+            result = storage.get(cls, "non_existing_id")
+            self.assertIsNone(result)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_all_objects(self):
+        """Test count() method without specifying a class"""
+        storage = DBStorage()
+        # Assuming there's at least one object of each class in storage
+        total_count = sum(len(storage.all(cls)) for cls in classes.values())
+        result = storage.count()
+        self.assertEqual(result, total_count)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_objects_of_specific_class(self):
+        """Test count() method with a specific class"""
+        storage = DBStorage()
+        # Assuming there's at least one object of each class in storage
+        cls_to_test = next(iter(classes.values()))  # Get the first class
+        expected_count = len(storage.all(cls_to_test))
+        result = storage.count(cls_to_test)
+        self.assertEqual(result, expected_count)
