@@ -42,6 +42,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """query on the current database session"""
+        # My checkers are not checking, so I added this
         new_dict = {}
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
