@@ -72,7 +72,7 @@ def view_update_delete_city(city_id):
             abort(404)
         storage.delete(city)
         storage.save()
-        return {}, 200
+        return jsonify({}), 200
     elif request.method == 'PUT':
         city = storage.get(City, city_id)
         if not city:

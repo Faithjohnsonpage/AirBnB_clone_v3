@@ -87,5 +87,5 @@ def delete_state(state_id):
             state_instance = value
             storage.delete(state_instance)
             storage.save()
-            return {}, 200
+            return jsonify({}), 200
     abort(404)

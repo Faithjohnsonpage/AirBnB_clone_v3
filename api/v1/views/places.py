@@ -70,7 +70,7 @@ def place(place_id):
     elif request.method == 'DELETE':
         storage.delete(place)
         storage.save()
-        return {}, 200
+        return jsonify({}), 200
     elif request.method == 'PUT':
         json_data = request.get_json()
         if not json_data:
