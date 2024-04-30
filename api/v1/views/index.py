@@ -30,13 +30,13 @@ class_mapping = {
 }
 
 
-@app_views.route('/status', methods=["GET"])
+@app_views.route('/status', methods=["GET"], strict_slashes=False)
 def view_status():
     """Returns a JSON response with status OK."""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=["GET"])
+@app_views.route('/stats', methods=["GET"], strict_slashes=False)
 def get_stats():
     """ Endpoint for getting counts of all object types """
     for key, value in stats.items():
