@@ -6,6 +6,7 @@ from flask import jsonify, abort, request
 from models import storage
 from models.city import City
 from models.place import Place
+from models.state import State
 from models.base_model import BaseModel
 from models.user import User
 
@@ -80,3 +81,65 @@ def place(place_id):
                 setattr(place, key, value)
         place.save()
         return jsonify(place.to_dict()), 200
+
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def places_retrieval():
+    """
+    Retrieves all Place objects based on the JSON in the request body.
+
+    JSON body can contain 3 optional keys:
+    - states: list of State ids
+    - cities: list of City ids
+    - amenities: list of Amenity ids
+
+    Search rules:
+    - If the JSON body is empty or each list of all keys are empty: retrieve
+      all Place objects
+    - If states list is not empty, results should include all Place objects
+      for each State id listed
+    - If cities list is not empty, results should include all Place objects
+      for each City id listed
+    - Keys states and cities are inclusive
+    - If amenities list is not empty, limit search results to only Place
+      objects having all Amenity ids listed
+    - The key amenities is exclusive
+
+    Raises:
+        400: If the request body is not valid JSON.
+    """
+    json_data = request.get_json()
+    if not json_data:
+        abort(400, 'Not a JSON')
+
+    states = json_data.get('states', [])
+    cities = json_data.get('cities', [])
+    amenities = json_data.get('amenities', [])
+
+    if not any([states, cities, amenities]):  # If all lists are empty
+        places = storage.all(Place)
+        places_list = [place.to_dict() for place in places.values()]
+        return jsonify(places_list)
+
+    # Filter places based on states and cities
+    filtered_places = []
+    for state_id in states:
+        state = storage.get(State, state_id)
+        if not state:
+            continue
+        for city in state.cities:
+            if city.id not in cities:
+                filtered_places.extend(city.places)
+    for city_id in cities:
+        city = storage.get(City, city_id)
+        if city:
+            filtered_places.extend(city.places)
+
+    # If amenities list is not empty, filter further
+    if amenities:
+        filtered_places = [place for place in filtered_places
+                           if all(amenity.id in place.amenities
+                                  for amenity in amenities)]
+
+    places_list = [place.to_dict() for place in filtered_places]
+    return jsonify(places_list)
