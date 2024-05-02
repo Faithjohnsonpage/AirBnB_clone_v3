@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Init file for views module"""
 from flask import Blueprint
 
 # Create a Blueprint object for v1 views
