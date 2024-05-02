@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Flask application for retrieving statistics about various objects."""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
