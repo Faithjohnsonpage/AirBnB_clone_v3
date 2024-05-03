@@ -40,7 +40,7 @@ def places(city_id):
         required_fields = ['user_id', 'name']
         for field in required_fields:
             if field not in json_data:
-                abort(400, f'Missing {field}')
+                abort(400, 'Missing {}'.format(field))
         user_id = json_data['user_id']
         if not storage.get(User, user_id):
             abort(404)
