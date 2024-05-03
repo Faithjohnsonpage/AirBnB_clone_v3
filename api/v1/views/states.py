@@ -1,4 +1,4 @@
-#!/usr/bin/python4
+#!/usr/bin/python3
 """This module allows view for State objects that handles
 all default RESTFul API actions"""
 from api.v1.views import app_views
